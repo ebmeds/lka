@@ -1353,7 +1353,7 @@ function generateXMLmessage() {
         drugValues[i].attributes.class.value ===
         "drugStrengthField form-control"
       ) {
-        druStrength.push(drugValues[i].value);
+        druStrength.push(drugValues[i].value.replace(",", "."));
       }
       if (
         drugValues[i].attributes.class.value === "drugUnitField form-control"
