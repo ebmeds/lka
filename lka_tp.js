@@ -11,7 +11,6 @@ if (typeof console === "undefined") {
 if (!DEBUG_MODE || typeof console.log === "undefined") {
   console.log = console.time = console.timeEnd = function () { };
 }
-// TULEEKO NÃ„Ã„ KOMMENTIT TUOTANTOON
 //cache is in use for medication searches.
 function myCache() {
   return {
