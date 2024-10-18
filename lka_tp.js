@@ -1,4 +1,4 @@
-// * * * LÃ¤Ã¤kityksen kokonaisarvio Terveysporttiin * * *
+// * * * Lääkityksen kokonaisarvio Terveysporttiin * * *
 // * * * Comprehensive Medication Guidelines to Terveysportti.fi -portal * * *
 
 //setting all console logs off in production.
@@ -11,6 +11,7 @@ if (typeof console === "undefined") {
 if (!DEBUG_MODE || typeof console.log === "undefined") {
   console.log = console.time = console.timeEnd = function () { };
 }
+
 //cache is in use for medication searches.
 function myCache() {
   return {
@@ -255,12 +256,12 @@ function teeValmisteet(data, re) {
       data[m].atc +
       ", VNR: " +
       vnrFirst +
-      "\" onClick=\"addTextInputDrug('drugDiv','lÃ¤Ã¤kettÃ¤'," +
-      "'lÃ¤Ã¤kkeen nimi','drugName','drugDiv2'," +
-      "'lÃ¤Ã¤kkeen ATC-koodi','drugCode','drugDiv3'," +
-      "'lÃ¤Ã¤kkeen vahvuus','drugStrength','drugDiv4'," +
-      "'lÃ¤Ã¤kkeen yksikkÃ¶','drugUnit','drugDiv5','KokonaispÃ¤ivÃ¤annos'," +
-      "'drugDailyDosage','drugDiv6','lÃ¤Ã¤kkeen antoreitti'," +
+      "\" onClick=\"addTextInputDrug('drugDiv','lääkettä'," +
+      "'lääkkeen nimi','drugName','drugDiv2'," +
+      "'lääkkeen ATC-koodi','drugCode','drugDiv3'," +
+      "'lääkkeen vahvuus','drugStrength','drugDiv4'," +
+      "'lääkkeen yksikkö','drugUnit','drugDiv5','Kokonaispäiväannos'," +
+      "'drugDailyDosage','drugDiv6','lääkkeen antoreitti'," +
       "'drugRoute','drugCode2','" +
       data[m].title +
       "'," +
@@ -328,7 +329,7 @@ function doSomething(data) {
           "." +
           new Date().getMilliseconds()
         );
-        if (j.result[i].title == "LÃ¤Ã¤keryhmÃ¤t") {
+        if (j.result[i].title == "Lääkeryhmät") {
         } else {
           teeValmisteet(j.result[i].data, reV);
         }
@@ -434,7 +435,7 @@ function addTextInputIndication(
   indNameTP
 ) {
   if (counter == limit + 1) {
-    alert("Voit lisÃ¤tÃ¤ maksimissaan " + (counter - 1) + " " + alertText);
+    alert("Voit lisätä maksimissaan " + (counter - 1) + " " + alertText);
   } else {
     console.log(
       "Function addTextInputIndication starts - " +
@@ -528,7 +529,7 @@ function addTextInputDrug(
   drugStrength
 ) {
   if (counter2 == limit2 + 1) {
-    alert("Voit lisÃ¤tÃ¤ maksimissaan " + (counter2 - 1) + " " + alertText);
+    alert("Voit lisätä maksimissaan " + (counter2 - 1) + " " + alertText);
   } else {
     console.log(
       "Function addTextInputDrug starts - " +
@@ -575,7 +576,7 @@ function addTextInputDrug(
       variableName5 +
       "_" +
       counter2 +
-      "' placeholder='syÃ¶tÃ¤ mÃ¤Ã¤rÃ¤' name='" +
+      "' placeholder='syötä määrä' name='" +
       variableName5 +
       "[]' class='" +
       variableName5 +
@@ -606,13 +607,13 @@ function addTextInputDrug(
       "<div class='checkbox'><label><input type='checkbox' " +
       "name='drugDate[]' value='newDrug' class='drugDateField' id='drugDate_" +
       (counter2 - 1) +
-      "'>uusi lÃ¤Ã¤ke potilaalle</label>" +
+      "'>uusi lääke potilaalle</label>" +
       "&nbsp;<a rel='tooltip' data-toggle='tooltip' data-placement='left' " +
-      "title='Valitse, ellei lÃ¤Ã¤ke ole aikaisemmin ollut potilaalla kÃ¤ytÃ¶ssÃ¤. " +
-      "Vaihtoehtoa voidaan myÃ¶s kÃ¤yttÃ¤Ã¤, jos halutaan testata miten lÃ¤Ã¤kkeen " +
-      "lisÃ¤ys potilaan lÃ¤Ã¤kitykseen potentiaalisesti vaikuttaisi " +
-      "lÃ¤Ã¤kityksen kokonaisarviointiin.'><span class='glyphicon glyphicon-info-sign'></span></a>" +
-      "<button data-toggle='tooltip' data-placement='top' title='Poista lÃ¤Ã¤ke' type='button' " +
+      "title='Valitse, ellei lääke ole aikaisemmin ollut potilaalla käytössä. " +
+      "Vaihtoehtoa voidaan myös käyttää, jos halutaan testata miten lääkkeen " +
+      "lisäys potilaan lääkitykseen potentiaalisesti vaikuttaisi " +
+      "lääkityksen kokonaisarviointiin.'><span class='glyphicon glyphicon-info-sign'></span></a>" +
+      "<button data-toggle='tooltip' data-placement='top' title='Poista lääke' type='button' " +
       "class='close' id='removeDrugButton_" +
       counter2 +
       "' onclick='removeDrug(" +
@@ -742,15 +743,15 @@ function generateXMLmessage() {
     new Date().getMilliseconds()
   );
   //Webform validation before XML is generated and sent.
-  var alertMessage = "Tietojen lÃ¤hettÃ¤misessÃ¤ tapahtui virhe:\n";
+  var alertMessage = "Tietojen lähettämisessä tapahtui virhe:\n";
   if (document.LKAform.dateOfBirth.value == "") {
-    alertMessage += "SyntymÃ¤vuosi puuttuu\n";
+    alertMessage += "Syntymävuosi puuttuu\n";
   } else {
     if (
       isNaN(document.LKAform.dateOfBirth.value) &&
       document.LKAform.dateOfBirth.value.length > 0
     ) {
-      alertMessage += "SyntymÃ¤vuosi oltava numeerinen\n";
+      alertMessage += "Syntymävuosi oltava numeerinen\n";
     } else {
       //Oldest person in the world lived to be 122 years old.
       //Let's give a change to all people
@@ -759,7 +760,7 @@ function generateXMLmessage() {
         document.LKAform.dateOfBirth.value < new Date().getFullYear() - 123 ||
         document.LKAform.dateOfBirth.value > new Date().getFullYear()
       ) {
-        alertMessage += "Anna oikea syntymÃ¤vuosi\n";
+        alertMessage += "Anna oikea syntymävuosi\n";
       }
     }
   }
@@ -876,8 +877,8 @@ function generateXMLmessage() {
     if (document.getElementById("drugDailyDosage_" + i)) {
       checkNumericPositive(
         xmlSafe(document.getElementById("drugDailyDosage_" + i).value),
-        "KokonaispÃ¤ivÃ¤annos",
-        "KokonaispÃ¤ivÃ¤annos"
+        "Kokonaispäiväannos",
+        "Kokonaispäiväannos"
       );
     }
   }
@@ -885,10 +886,10 @@ function generateXMLmessage() {
     typeof document.getElementById("drugCodeDiv_1") == "undefined" ||
     document.getElementById("drugCodeDiv_1") == null
   ) {
-    alertMessage += "LisÃ¤Ã¤ ainakin yksi lÃ¤Ã¤ke\n";
+    alertMessage += "Lisää ainakin yksi lääke\n";
   }
   //Return error message and do not send webform if there is any other text
-  //added to alertMessage than "Tietojen lÃ¤hettÃ¤misessÃ¤..."
+  //added to alertMessage than "Tietojen lähettämisessä..."
   if (alertMessage.length > 40) {
     console.timeEnd("Validating form and generating xml took time");
     //reopen the webform modal window.
@@ -1554,7 +1555,7 @@ function generateXMLmessage() {
     document.LKAform.action = 'https://proxy-fikd7nv7fa-lz.a.run.app/lkatp/dssscripts/dss.asp'
     document.LKAform.data.value = document.LKAform.dssData.value
   //}
-  
+
   console.log(
     "Sending this xml to ebmeds engine:\n\n" +
     document.LKAform.dssData.value +
@@ -1932,7 +1933,7 @@ function validateForm(formSent) {
       if (document.getElementById("drugDailyDosage_" + i)) {
         checkNumericPositive(
           xmlSafe(document.getElementById("drugDailyDosage_" + i).value),
-          "KokonaispÃ¤ivÃ¤annos",
+          "Kokonaispäiväannos",
           "drugUnitDiv_" + i,
           1
         );
@@ -2012,23 +2013,23 @@ $(document).ready(function () {
           }
           addTextInputDrug(
             "drugDiv",
-            "lÃ¤Ã¤kettÃ¤",
-            "lÃ¤Ã¤kkeen nimi",
+            "lääkettä",
+            "lääkkeen nimi",
             "drugName",
             "drugDiv2",
-            "lÃ¤Ã¤kkeen ATC-koodi",
+            "lääkkeen ATC-koodi",
             "drugCode",
             "drugDiv3",
-            "lÃ¤Ã¤kkeen vahvuus",
+            "lääkkeen vahvuus",
             "drugStrength",
             "drugDiv4",
-            "lÃ¤Ã¤kkeen yksikkÃ¶",
+            "lääkkeen yksikkö",
             "drugUnit",
             "drugDiv5",
-            "KokonaispÃ¤ivÃ¤annos",
+            "Kokonaispäiväannos",
             "drugDailyDosage",
             "drugDiv6",
-            "lÃ¤Ã¤kkeen antoreitti",
+            "lääkkeen antoreitti",
             "drugRoute",
             "drugCode2",
             window.integrationResults.result[0].data[i].title,
@@ -2072,7 +2073,7 @@ $(document).ready(function () {
           }
         }
         if (showMissingVNR == true) {
-          alert("VNR-koodia '" + TPvnrarray[i] + "' ei lÃ¶ytynyt.");
+          alert("VNR-koodia '" + TPvnrarray[i] + "' ei löytynyt.");
         }
       }
     }
@@ -2499,7 +2500,7 @@ $(document).ready(function () {
   });
   //Reset also drugs and diagnoses when user clears the form with reset button.
   $("#resetThis").click(function () {
-    if (confirm("Haluatko varmasti tyhjentÃ¤Ã¤ lomakkeen?")) {
+    if (confirm("Haluatko varmasti tyhjentää lomakkeen?")) {
       console.log(
         "Webform reset button pressed. " +
         "Removing hardcoded webform field and dynamic fields (drugs and diagnosis) - " +
