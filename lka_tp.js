@@ -1550,11 +1550,17 @@ function generateXMLmessage() {
   //Everything is ok. OnSubmit operation in <FORM>-tag is approved.
   //XML is sent to EBMeDS-engine.
 
-  // Send to test environment if YA
-  //if (window.location.hash === '#ya') {
-    document.LKAform.action = 'https://proxy-fikd7nv7fa-lz.a.run.app/lkatp/dssscripts/dss.asp'
-    document.LKAform.data.value = document.LKAform.dssData.value
-  //}
+  const EBMEDSProxyURL = 'https://proxy-fikd7nv7fa-lz.a.run.app/lkatp/dssscripts/dss.asp'
+  console.log(`EBMEDSProxyURL: ${EBMEDSProxyURL}`)
+  if (window.location.hash) {
+    const hashValue = window.location.hash.substring(1)
+    const newURL = `${EBMEDSProxyURL}?hash=${hashValue}`
+    console.log(`newURL: ${newURL}`)
+    document.LKAform.action = newURL
+  } else {
+    document.LKAform.action = EBMEDSProxyURL
+  }
+  document.LKAform.data.value = document.LKAform.dssData.value
 
   console.log(
     "Sending this xml to ebmeds engine:\n\n" +
