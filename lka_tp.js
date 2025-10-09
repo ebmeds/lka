@@ -2017,6 +2017,14 @@ $(document).ready(function () {
           if (typeof window.integrationResults.result[0].data[i].vnr !== 'undefined') {
             vnr = window.integrationResults.result[0].data[i].vnr[0];
           }
+          // POISTA LÄÄKKEET JOLLA EI OLE VAHVUUTTA
+          if (!window.integrationResults.result[0].data[i].strength) {
+            continue;
+          }
+          // KORJAA LÄÄKKEET JOISSA PILKKUVIRHE
+          if (window.integrationResults.result[0].data[i].strength.indexOf(",") === 0) {
+            window.integrationResults.result[0].data[i].strength = `0.${window.integrationResults.result[0].data[i].strength.slice(1)}`
+          }
           addTextInputDrug(
             "drugDiv",
             "lääkettä",
