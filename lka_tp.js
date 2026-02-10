@@ -1381,12 +1381,20 @@ function generateXMLmessage() {
   //Inserting Drug data to XML.
   for (var i = 0; i < druCodes.length; i++) {
     //Adding ATC and VNR codes.
-    document.LKAform.dssData.value += "<Drug><CodeValue>";
-    document.LKAform.dssData.value += xmlSafe(druCodes[i]);
-    document.LKAform.dssData.value +=
-      "</CodeValue><CodeSystem>" +
-      "1.2.246.537.6.32.2007</CodeSystem><CodeSystemVersion>" +
-      "</CodeSystemVersion>";
+    document.LKAform.dssData.value += "<Drug>"
+
+    /* 
+    * Lisätään ATC-koodi vain jos VNR-koodi puuttuu
+    */
+    if (!xmlSafe(druCodesVNR[i])) {
+      document.LKAform.dssData.value += "<CodeValue>";
+      document.LKAform.dssData.value += xmlSafe(druCodes[i]);
+      document.LKAform.dssData.value +=
+        "</CodeValue><CodeSystem>" +
+        "1.2.246.537.6.32.2007</CodeSystem><CodeSystemVersion>" +
+        "</CodeSystemVersion>";
+    }
+    
     document.LKAform.dssData.value += "<CodeValue>";
     document.LKAform.dssData.value += xmlSafe(druCodesVNR[i]);
     document.LKAform.dssData.value +=
